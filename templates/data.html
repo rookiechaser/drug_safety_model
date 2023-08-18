@@ -1,0 +1,69 @@
+<!-- <h1 style="text-align: center;">This is the generated result for each of the data respectively</h1>
+{{ data | safe }} -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Generated Result</title>
+    <!-- Add Bootstrap CSS link -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Custom CSS for background and result styling */
+        body {
+            background-color: #272728; /* Replace with your desired color value */
+        }
+        .result-container {
+            background-color: rgb(249, 248, 246);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgb(255, 255, 255);
+        }
+
+        /* Custom styling for the rendered table */
+        .table {
+            width: 100%;
+            max-width: 100%;
+            margin-bottom: 1rem;
+            background-color: transparent;
+        }
+
+        .table th,
+        .table td {
+            padding: 0.75rem;
+            vertical-align: top;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .table thead th {
+            vertical-align: bottom;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .table tbody + tbody {
+            border-top: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Additional styling for alternating table rows */
+        .table-striped tbody tr:nth-of-type(odd) {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container-fluid d-flex justify-content-center align-items-center h-100">
+    <div class="result-container">
+        <h1 class="mb-4 text-center">Generated Result</h1>
+        <div class="text-center">
+            {{ data | safe }}
+        </div>
+    </div>
+</div>
+
+<!-- Add Bootstrap JS and jQuery (optional) -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
+
