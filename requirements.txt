@@ -4,7 +4,5 @@ matplotlib
 seaborn
 sklearn
 scipy
-pickle
 flask
-csv
-os
+
