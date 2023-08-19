@@ -7,3 +7,8 @@ scipy
 flask
 flask_restful
 joblib
+json
+qrcode
+zipfile
+io
+os
