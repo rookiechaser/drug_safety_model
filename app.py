@@ -1,4 +1,5 @@
-from flask import Flask,render_template,request
+import io
+from flask import Flask,render_template,request,send_file
 import os
 import pandas as pd
 import numpy as np
@@ -8,7 +9,9 @@ import pickle
 import csv
 import matplotlib.pyplot as plt
 import joblib
-
+import json
+import qrcode
+import zipfile
 
 
 app=Flask(__name__)
@@ -58,7 +61,58 @@ def data():
         qr_generation=final[final['safety']=='safe']
         # storing data in JSON format
         qr_generation.to_json('file1.json', orient = 'split', compression = 'infer')
-        return render_template('data.html',data= final.to_html(header=True,index=False))
+        return render_template('data.html', data= final.to_html(header=True, index=False))
+@app.route('/download',methods=['GET','POST'])
+def download():
+    # Opening JSON file
+    f = open('file1.json')
+
+    # returns JSON object as
+    # a dictionary
+    data_store = json.load(f)
+    # Assuming you already have your data_store with 'data' as a list of dictionaries
+
+    # Create a directory to save QR code images
+    if not os.path.exists("qr_images"):
+        os.mkdir("qr_images")
+
+    # Loop through the data and generate QR codes
+    for i in data_store['data']:
+        keys = ['batch', 'code', 'resodual_solvent', 'impurities_total', 'safety']
+        values = i
+        my_dict = {keys[i]: values[i] for i in range(len(keys))}
+        json_string = json.dumps(my_dict)
+    
+    # Create a QR code instance
+    qr = qrcode.QRCode(
+        version=1,
+        error_correction=qrcode.constants.ERROR_CORRECT_L,
+        box_size=10,
+        border=4,
+    )
+
+    # Add the JSON data to the QR code
+    qr.add_data(json_string)
+    qr.make(fit=True)
+
+    # Create an image from the QR code instance
+    qr_image = qr.make_image(fill_color="black", back_color="white")
+
+    # Save the QR code image
+    image_filename = os.path.join("qr_images", "batch" + str(i[0]) + ".png")
+    qr_image.save(image_filename)
+
+    #print("QR code images generated with JSON data embedded.")
+
+    # Create a ZIP archive of the generated QR code images
+    with zipfile.ZipFile("qr_images.zip", "w") as zipf:
+        for root, _, files in os.walk("qr_images"):
+            for file in files:
+                file_path = os.path.join(root, file)
+                zipf.write(file_path, os.path.basename(file_path))
+    path = 'qr_images.zip'
+    return send_file(path, as_attachment=True)
+    #print("QR code images saved as qr_images.zip")
 
 
 
